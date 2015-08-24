@@ -9,10 +9,13 @@
   "role": "addon",
   "type": "certified",
   "content_scripts": [{
-    "matches": ["system.gaiamobile.org"],
-    "css": [],
-    "js": ["scripts/nfc.js"]
-  }],
+    "matches": [
+      "app://system.gaiamobile.org/index.html"
+    ],
+    "js": [
+      "/scripts/nfc.js"
+    ]
+  },
   "icons": {
     "1200": "/style/icons/1200.png",
     "512": "/style/icons/512.png",
