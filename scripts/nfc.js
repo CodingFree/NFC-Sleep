@@ -44,27 +44,58 @@
         }
     }
 
+    function changeSettings(){
+        var settings = window.navigator.mozSettings;
+        var lock = window.navigator.mozSettings.createLock();
+        var result = lock.set({
+          'wifi.enabled': false,
+          'bluetooth.enabled': false,
+          'powersave.enabled': true,
+          'ril.data.enabled': false,
+          'audio.volume.content': 0,
+          'audio.volume.notification': 0
+
+        });     
+
+        result.onsuccess = function () {
+          console.log("NFC-Sleep: The setting has been changed");
+          notify("NFC-Sleep", "The setting has been changed");
+        }
+
+        result.onerror = function () {
+          console.log("NFC-Sleep: An error occure, the setting remain unchanged");
+          notify("NFC-Sleep", "An error occure, the setting remain unchanged");
+        }
+    }
+
     function manageNDEFRecords(ndefRecords) {
+        console.log("NFC-Sleep: managing NDEF records.");
         var ndefLen = ndefRecords ? ndefRecords.length : 0;
         if(ndefLen != 0){
             var outputString = '';
             for (i = 0; i < ndefLen; i++) {
                 payload = dumpUint8Array(ndefRecords[i].payload);
             }
-            notify("NFC-Sleep", payload);
             console.log("NFC-Sleep: "+payload);
+            if (payload.localeCompare("NFC-Pass1") === 0){
+                changeSettings();
+            }
+
         }
       }
 
     function handleTagFound(ndefObject){
+        console.log("NFC-Sleep: Tag found");
         var ndefRecords = ndefObject.ndefRecords;
         var ndefLen = ndefRecords ? ndefRecords.length : 0;
 
          // if no NDEF Records are contained, bail out.
         if (!ndefLen) {
+          console.log("NFC-Sleep: The tag is blank")
           return true;
         }
 
+        console.log("NFC-Sleep: The tag is okay, lets read it");
         manageNDEFRecords(ndefObject.ndefRecords);
         return false;
     }

@@ -2,7 +2,7 @@ mypath = ./style/icons
 mainicon = 1200.png
 
 package:
-	zip package.zip -r scripts manifest.json style
+	zip package.zip -r scripts manifest.json style index.html
 
 resizer:
 	convert $(mypath)/$(mainicon) -resize 512x512 $(mypath)/512.png
