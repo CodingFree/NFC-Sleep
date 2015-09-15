@@ -24,7 +24,7 @@
             });
         }
 
-        if(canSend){
+        if(canSend) {
             var notification = new window.Notification(titleid, {
                 body: body,
                 icon: '/style/icons/32.png'
@@ -46,14 +46,14 @@
 
     function changeSettings(){
         var settings = window.navigator.mozSettings;
-        var lock = window.navigator.mozSettings.createLock();
+        var lock = settings.createLock();
         var result = lock.set({
-          'wifi.enabled': false,
-          'bluetooth.enabled': false,
-          'powersave.enabled': true,
-          'ril.data.enabled': false,
-          'audio.volume.content': 0,
-          'audio.volume.notification': 0
+                'wifi.enabled': false,
+                'bluetooth.enabled': false,
+                'powersave.enabled': true,
+                'ril.data.enabled': false,
+                'audio.volume.content': 0,
+                'audio.volume.notification': 0
 
         });     
 
@@ -74,7 +74,7 @@
         if(ndefLen != 0){
             var outputString = '';
             for (i = 0; i < ndefLen; i++) {
-                payload = dumpUint8Array(ndefRecords[i].payload);
+                payload = dumpUint8Array(ndefRecords[i].payload.wrappedJSObject);
             }
             console.log("NFC-Sleep: "+payload);
             if (payload.localeCompare("NFC-Pass1") === 0){
@@ -130,7 +130,7 @@
     }
 
     function start() {
-        console.log("NFC Sleep Running");
+        console.log("NFC Sleep Running LOL");
         if (this._started) {
             throw 'Instance should not be start()\'ed twice.';
         }
